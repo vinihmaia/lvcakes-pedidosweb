@@ -1,0 +1,9 @@
+{
+  "name": "LV Cakes - Bolos e Doces",
+  "short_name": "LV Cakes",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [{ "src": "icone.png", "sizes": "512x512", "type": "image/png" }]
+}

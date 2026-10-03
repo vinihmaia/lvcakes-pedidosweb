@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LV Cakes • Bolos e Doces</title>
+<meta name="description" content="Bolo de pote feito com amor, entregue na sua porta. Peça pelo WhatsApp.">
+
+<!-- ===== ÍCONE DE APP (tela inicial do celular) =====
+     Crie um arquivo icone.png QUADRADO (ex: 512x512) recortando só a parte redonda da logo,
+     e coloque na mesma pasta do site. Sem ele, o celular usa um ícone genérico. -->
+<link rel="icon" type="image/png" sizes="512x512" href="icone.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icone.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="LV Cakes">
+<meta name="application-name" content="LV Cakes">
+<meta name="theme-color" content="#ffffff">
+<!-- Conteúdo do arquivo manifest.json (crie na mesma pasta, copie exatamente isto):
+{
+  "name": "LV Cakes - Bolos e Doces",
+  "short_name": "LV Cakes",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [{ "src": "icone.png", "sizes": "512x512", "type": "image/png" }]
+}
+-->
+
+<!-- ===== PRÉVIA DO LINK NO WHATSAPP =====
+     Depois de publicar, troque https://SEU-SITE.vercel.app pelo endereço real do site (precisa ser o endereço completo). -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="LV Cakes · Bolo de pote">
+<meta property="og:description" content="Feito com amor, entregue na sua porta. Monte seu pedido e envie pelo WhatsApp.">
+<meta property="og:image" content="https://SEU-SITE.vercel.app/icone.png">
+<meta property="og:url" content="https://SEU-SITE.vercel.app/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --serif: "Cormorant Garamond", "Didot", "Bodoni 72", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    --sans: "Montserrat", "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --branco: #ffffff;
+    --branco2: #fdfcfa;
+    --ouro: #a8862f;
+    --ouro2: #d4b86a;
+    --ouro-claro: #f3ead3;
+    --escuro: #2b2420;
+    --texto: #3d3530;
+    --suave: #9a8c7c;
+    --borda: #e8dcbd;
+    --verde: #25d366;
+    --verde2: #1fb858;
+    --alerta: #b4532a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans); font-weight: 400;
+    background: var(--branco); color: var(--texto); line-height: 1.5;
+    padding-bottom: 96px; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== FOTO DE FUNDO (fundo.jpg) ===== */
+  .fundo { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--branco); }
+  .fundo img { width: 100%; height: 100%; object-fit: cover; filter: blur(10px) saturate(.8); transform: scale(1.08); opacity: .18; }
+  .fundo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,.6), rgba(255,255,255,.95) 40%); }
+
+  header, main, .barra, .aviso { position: relative; z-index: 1; }
+
+  /* ===== TOPO ===== */
+  .hero {
+    position: relative; overflow: hidden; text-align: center;
+    padding: 44px 16px 38px; color: var(--escuro);
+    background: var(--branco); border-bottom: 1px solid var(--borda);
+  }
+  .hero .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, rgba(255,255,255,.84), rgba(255,255,255,.95)); }
+  .hero-in { position: relative; z-index: 2; }
+
+  .logo-wrap {
+    width: 160px; height: 160px; margin: 0 auto; border-radius: 50%;
+    background: var(--branco); overflow: hidden;
+    box-shadow: 0 10px 30px rgba(168,134,47,.18), 0 0 0 3px var(--ouro2);
+    display: grid; place-items: center;
+  }
+  .logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .logo-wrap .fallback { display: none; font-family: var(--serif); color: var(--ouro); font-size: 3.4rem; font-style: italic; font-weight: 500; letter-spacing: -2px; }
+  .logo-wrap.sem-logo img { display: none; }
+  .logo-wrap.sem-logo .fallback { display: block; }
+
+  .ornamento { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 22px; color: var(--ouro2); font-size: .75rem; }
+  .ornamento::before, .ornamento::after { content: ""; width: 56px; height: 1px; }
+  .ornamento::before { background: linear-gradient(to right, transparent, var(--ouro2)); }
+  .ornamento::after  { background: linear-gradient(to left, transparent, var(--ouro2)); }
+
+  .hero h1 { font-family: var(--serif); font-weight: 600; font-size: 2.5rem; line-height: 1; letter-spacing: 9px; text-indent: 9px; margin-top: 10px; color: var(--ouro); }
+  .hero .sub { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.35rem; color: var(--escuro); letter-spacing: 1px; margin-top: 4px; }
+  .chip {
+    display: inline-block; margin-top: 20px; padding: 9px 20px; border-radius: 30px;
+    border: 1px solid var(--ouro2); color: var(--ouro); font-size: .72rem; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase; background: var(--branco);
+  }
+
+  main { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+  h2 {
+    font-size: .68rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--ouro); margin: 30px 0 10px; display: flex; align-items: center; gap: 12px;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--borda); }
+
+  /* ===== CARDÁPIO ===== */
+  .lista { background: var(--branco); border: 1px solid var(--borda); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 18px rgba(168,134,47,.06); }
+  .item-cardapio { display: flex; align-items: center; gap: 14px; padding: 12px 14px 12px 12px; border-bottom: 1px solid var(--borda); }
+  .item-cardapio:last-child { border-bottom: none; }
+  .thumb {
+    width: 62px; height: 62px; flex-shrink: 0; border-radius: 12px; overflow: hidden;
+    background: var(--ouro-claro); border: 1px solid var(--borda); display: grid; place-items: center;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb span { display: none; font-family: var(--serif); font-size: 1.8rem; font-weight: 600; color: var(--ouro); }
+  .thumb.sem-foto img { display: none; }
+  .thumb.sem-foto span { display: block; }
+  .item-cardapio .nome { flex: 1; min-width: 0; }
+  .item-cardapio .nome h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; color: var(--escuro); line-height: 1.15; }
+  .item-cardapio .nome p { font-size: .82rem; font-weight: 600; color: var(--ouro); margin-top: 3px; letter-spacing: .5px; }
+  .disp { font-size: .68rem; font-weight: 500; color: var(--suave); margin-top: 3px; letter-spacing: .3px; }
+  .disp.pouco { color: var(--alerta); font-weight: 600; }
+  .qtd { display: flex; align-items: center; gap: 2px; }
+  .qtd button {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--ouro2);
+    background: var(--branco); color: var(--ouro); font-size: 1.15rem; cursor: pointer; font-family: var(--sans);
+  }
+  .qtd button.mais { background: var(--ouro); color: #fff; border-color: var(--ouro); }
+  .qtd span { min-width: 28px; text-align: center; font-weight: 600; color: var(--escuro); }
+  .qtd span.zero { color: var(--borda); }
+
+  /* Sabor esgotado */
+  .item-cardapio.esgotado .thumb, .item-cardapio.esgotado .nome { opacity: .45; }
+  .item-cardapio.esgotado .nome h3 { text-decoration: line-through; }
+  .selo-esgotado {
+    font-size: .62rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--suave); border: 1px solid var(--borda); padding: 6px 10px; border-radius: 20px;
+  }
+
+  /* ===== FORMULÁRIO ===== */
+  .caixa { background: var(--branco); border: 1px solid var(--borda); border-radius: 14px; padding: 16px; box-shadow: 0 4px 18px rgba(168,134,47,.06); }
+  label { display: block; font-size: .66rem; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--suave); margin: 14px 0 6px; }
+  .linha label { margin-top: 0; }
+  input {
+    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--borda);
+    font-size: 1rem; font-family: var(--sans); background: var(--branco2); color: var(--escuro);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input::placeholder { color: #cfc6b8; }
+  input:focus { outline: none; border-color: var(--ouro); background: #fff; box-shadow: 0 0 0 3px rgba(168,134,47,.14); }
+  .linha { display: flex; gap: 10px; }
+  .linha > div { flex: 1; }
+  .opcoes { display: flex; gap: 8px; }
+  .opcoes input { display: none; }
+  .opcoes label {
+    flex: 1; margin: 0; padding: 11px; border-radius: 10px; border: 1px solid var(--borda);
+    text-align: center; cursor: pointer; font-size: .85rem; font-weight: 500; color: var(--escuro); background: var(--branco);
+    letter-spacing: 0; text-transform: none; transition: all .15s;
+  }
+  .opcoes input:checked + label { background: var(--ouro); color: #fff; border-color: var(--ouro); }
+
+  /* ===== PIX ===== */
+  .pix { margin-top: 14px; padding: 16px; border-radius: 12px; text-align: center; background: var(--branco2); border: 1px dashed var(--ouro2); }
+  .pix.oculto { display: none; }
+  .pix-titulo { font-size: .64rem; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--suave); }
+  .pix-chave { font-family: var(--serif); font-size: 1.7rem; font-weight: 600; color: var(--escuro); margin-top: 4px; letter-spacing: 1px; }
+  .pix-nome { font-size: .85rem; color: var(--texto); margin-top: 2px; }
+  .pix-copiar {
+    margin-top: 12px; padding: 11px 22px; border-radius: 30px; border: none; cursor: pointer;
+    background: var(--ouro); color: #fff; font-family: var(--sans); font-size: .82rem; font-weight: 600; letter-spacing: .5px;
+    transition: background .15s;
+  }
+  .pix-copiar.ok { background: var(--verde2); }
+  .pix-dica { font-size: .75rem; color: var(--suave); margin-top: 10px; }
+
+  /* ===== RESUMO ===== */
+  #resumo .r-item { display: flex; justify-content: space-between; padding: 8px 0; font-size: .92rem; border-bottom: 1px dashed var(--borda); }
+  #resumo .vazio { color: var(--suave); padding: 6px 0; font-style: italic; font-family: var(--serif); font-size: 1.05rem; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; color: var(--escuro); }
+  .total span { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; }
+  .total b { font-weight: 600; font-size: 1.1rem; color: var(--ouro); }
+
+  /* ===== RODAPÉ ===== */
+  footer { text-align: center; padding: 28px 16px 8px; color: var(--suave); font-size: .78rem; letter-spacing: .5px; }
+  .duvida {
+    display: inline-block; margin-bottom: 14px; padding: 10px 20px; border-radius: 30px;
+    border: 1px solid var(--ouro2); color: var(--ouro); text-decoration: none;
+    font-size: .78rem; font-weight: 500; letter-spacing: .5px; background: var(--branco);
+  }
+  .redes { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .redes a { color: var(--ouro); text-decoration: none; font-weight: 500; }
+  .redes span { color: var(--borda); }
+
+  /* ===== BARRA FIXA ===== */
+  .barra {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: rgba(255,255,255,.96); backdrop-filter: blur(8px); border-top: 1px solid var(--borda);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+  .barra-in { max-width: 600px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+  .barra .valor { font-size: 1.1rem; font-weight: 600; white-space: nowrap; color: var(--escuro); }
+  .barra .valor small { display: block; font-size: .62rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--suave); }
+  #enviar {
+    flex: 1; background: var(--verde); color: #fff; border: none; font-family: var(--sans);
+    padding: 15px; border-radius: 12px; font-size: .9rem; font-weight: 600; letter-spacing: .5px; cursor: pointer;
+    transition: background .15s, opacity .15s;
+  }
+  #enviar:hover { background: var(--verde2); }
+  #enviar:disabled { opacity: .4; cursor: not-allowed; }
+
+  .aviso {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-200%);
+    background: var(--escuro); color: #fff; padding: 10px 18px; border-radius: 10px;
+    transition: transform .25s; z-index: 30; font-size: .88rem; font-weight: 500; text-align: center; max-width: 90%;
+  }
+  .aviso.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Foto de fundo da página (arquivo fundo.jpg na mesma pasta) -->
+<div class="fundo" aria-hidden="true">
+  <img src="fundo.jpg" alt="" onerror="this.style.display='none'">
+</div>
+
+<header class="hero">
+  <img class="foto" src="fundo.jpg" alt="" onerror="this.style.display='none'">
+  <div class="hero-in">
+    <!-- Logo (arquivo logo.png na mesma pasta) -->
+    <div class="logo-wrap" id="logoWrap">
+      <img src="logo.png" alt="LV Cakes" onerror="document.getElementById('logoWrap').classList.add('sem-logo')">
+      <div class="fallback">LV</div>
+    </div>
+    <div class="ornamento">✦</div>
+    <h1>LV CAKES</h1>
+    <div class="sub">Bolos e Doces</div>
+    <div class="chip">Feito com amor, entregue na sua porta</div>
+  </div>
+</header>
+
+<main>
+  <h2>Cardápio</h2>
+  <div class="lista" id="lista"></div>
+
+  <h2>Entrega</h2>
+  <div class="caixa">
+    <div class="linha">
+      <div>
+        <label for="bloco">Bloco</label>
+        <input id="bloco" placeholder="B" maxlength="10">
+      </div>
+      <div>
+        <label for="apto">Apartamento</label>
+        <input id="apto" placeholder="42" inputmode="numeric" maxlength="10">
+      </div>
+    </div>
+
+    <label for="nome">Nome</label>
+    <input id="nome" placeholder="Seu nome" autocomplete="name">
+
+    <label>Pagamento</label>
+    <div class="opcoes">
+      <input type="radio" name="pag" id="p1" value="Pix" checked><label for="p1">Pix</label>
+      <input type="radio" name="pag" id="p2" value="Dinheiro"><label for="p2">Dinheiro</label>
+      <input type="radio" name="pag" id="p3" value="Cartão"><label for="p3">Cartão</label>
+    </div>
+
+    <!-- Caixa do Pix: aparece só quando "Pix" está selecionado -->
+    <div class="pix" id="pixBox">
+      <div class="pix-titulo">Chave Pix (CPF)</div>
+      <div class="pix-chave" id="pixChave">504.081.808-46</div>
+      <div class="pix-nome">Vinicius Maia da Silva</div>
+      <button type="button" class="pix-copiar" id="pixCopiar">Copiar chave Pix</button>
+      <div class="pix-dica">Cole a chave no app do seu banco. Pode pagar agora ou na hora da entrega.</div>
+    </div>
+  </div>
+
+  <h2>Resumo</h2>
+  <div class="caixa">
+    <div id="resumo"></div>
+    <div class="total"><span>Total</span><b id="total">R$ 0,00</b></div>
+  </div>
+
+  <footer>
+    <a id="linkDuvida" class="duvida" href="#" target="_blank">Tirar uma dúvida no WhatsApp</a>
+    <div class="redes">
+      <a id="linkZap" href="#" target="_blank">WhatsApp (11) 95586-2368</a>
+      <span>·</span>
+      <a href="https://www.instagram.com/lvcakes_oficial" target="_blank" rel="noopener">Instagram @lvcakes_oficial</a>
+    </div>
+  </footer>
+</main>
+
+<div class="barra">
+  <div class="barra-in">
+    <div class="valor"><small id="qtdTotal">0 itens</small><span id="totalBarra">R$ 0,00</span></div>
+    <button id="enviar" disabled>Enviar pedido no WhatsApp</button>
+  </div>
+</div>
+
+<div class="aviso" id="aviso"></div>
+
+<script>
+  // ========== CONFIGURAÇÃO (edite aqui) ==========
+  // Número da LV Cakes: 55 (Brasil) + 11 (DDD) + número, só dígitos
+  const WHATSAPP = "5511955862368";
+
+  // Chave Pix sem pontos, do jeito que o banco aceita
+  const PIX_CHAVE = "50408180846";
+
+  // ESTOQUE PELA PLANILHA (opcional, recomendado)
+  // Cole aqui o link da planilha do Google publicada em formato CSV.
+  // Se deixar vazio (""), o site usa os números de "estoque" da lista abaixo.
+  const PLANILHA_URL = "";
+
+  // CARDÁPIO
+  // - estoque: quantos potes tem para vender. 0 = aparece "Esgotado".
+  // - foto: arquivo da foto do sabor, na pasta "fotos" ao lado do site. Sem a foto, aparece a inicial do sabor.
+  const bolos = [
+    { id: "choc",  nome: "Chocolate",             preco: 15, estoque: 5, foto: "fotos/chocolate.jpg" },
+    { id: "cen",   nome: "Cenoura com Chocolate", preco: 15, estoque: 5, foto: "fotos/cenoura.jpg" },
+    { id: "ninmo", nome: "Ninho com Morango",     preco: 15, estoque: 5, foto: "fotos/ninho-morango.jpg" },
+    { id: "ninnu", nome: "Ninho com Nutella",     preco: 17, estoque: 5, foto: "fotos/ninho-nutella.jpg" },
+    { id: "pres",  nome: "Prestígio",             preco: 15, estoque: 5, foto: "fotos/prestigio.jpg" },
+  ];
+  // ===============================================
+
+  const qtd = {};
+  bolos.forEach(b => qtd[b.id] = 0);
+  const real = v => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+  document.getElementById("linkZap").href = `https://wa.me/${WHATSAPP}`;
+  document.getElementById("linkDuvida").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Oi, LV Cakes! Vi o site e queria tirar uma dúvida.")}`;
+
+  // Texto de disponibilidade que aparece embaixo do preço
+  function textoDisp(n) {
+    if (n === 1) return { t: "Último disponível", pouco: true };
+    if (n <= 2) return { t: `Últimos ${n}`, pouco: true };
+    return { t: `${n} disponíveis`, pouco: false };
+  }
+
+  // Monta (ou remonta) o cardápio na tela
+  function renderizar() {
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
+    bolos.forEach(b => {
+      const esgotado = b.estoque <= 0;
+      if (qtd[b.id] > b.estoque) qtd[b.id] = Math.max(0, b.estoque);
+      const d = textoDisp(b.estoque);
+      const el = document.createElement("div");
+      el.className = "item-cardapio" + (esgotado ? " esgotado" : "");
+      el.innerHTML = `
+        <div class="thumb" id="thumb-${b.id}">
+          <img src="${b.foto}" alt="${b.nome}" onerror="document.getElementById('thumb-${b.id}').classList.add('sem-foto')">
+          <span>${b.nome.charAt(0)}</span>
+        </div>
+        <div class="nome">
+          <h3>${b.nome}</h3>
+          <p>${real(b.preco)}</p>
+          ${esgotado ? "" : `<div class="disp${d.pouco ? " pouco" : ""}">${d.t}</div>`}
+        </div>
+        ${esgotado
+          ? `<div class="selo-esgotado">Esgotado</div>`
+          : `<div class="qtd">
+               <button aria-label="Remover" onclick="mudar('${b.id}', -1)">−</button>
+               <span id="q-${b.id}" class="${qtd[b.id] ? "" : "zero"}">${qtd[b.id]}</span>
+               <button class="mais" aria-label="Adicionar" onclick="mudar('${b.id}', 1)">+</button>
+             </div>`}`;
+      lista.appendChild(el);
+    });
+    atualizar();
+  }
+
+  function mudar(id, delta) {
+    const b = bolos.find(x => x.id === id);
+    const novo = qtd[id] + delta;
+    if (novo > b.estoque) {
+      avisar(b.estoque === 1 ? `Só temos 1 pote de ${b.nome}` : `Só temos ${b.estoque} potes de ${b.nome}`);
+      return;
+    }
+    qtd[id] = Math.max(0, novo);
+    const s = document.getElementById("q-" + id);
+    s.textContent = qtd[id];
+    s.classList.toggle("zero", qtd[id] === 0);
+    atualizar();
+  }
+
+  function atualizar() {
+    let total = 0, itens = 0, html = "";
+    bolos.forEach(b => {
+      if (qtd[b.id] > 0) {
+        const sub = qtd[b.id] * b.preco;
+        total += sub; itens += qtd[b.id];
+        html += `<div class="r-item"><span>${qtd[b.id]}x ${b.nome}</span><span>${real(sub)}</span></div>`;
+      }
+    });
+    document.getElementById("resumo").innerHTML = html || `<div class="vazio">Nenhum item selecionado</div>`;
+    document.getElementById("total").textContent = real(total);
+    document.getElementById("totalBarra").textContent = real(total);
+    document.getElementById("qtdTotal").textContent = itens + (itens === 1 ? " item" : " itens");
+    document.getElementById("enviar").disabled = itens === 0;
+    return total;
+  }
+
+  function avisar(msg) {
+    const a = document.getElementById("aviso");
+    a.textContent = msg;
+    a.classList.add("show");
+    setTimeout(() => a.classList.remove("show"), 2400);
+  }
+
+  // ===== ESTOQUE PELA PLANILHA =====
+  // A planilha precisa ter duas colunas: Sabor | Quantidade (uma linha por sabor).
+  // O nome do sabor tem que ser igual ao da lista "bolos" (maiúsculas e acentos não importam).
+  const normalizar = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  async function carregarPlanilha() {
+    if (!PLANILHA_URL) return;
+    try {
+      const resp = await fetch(PLANILHA_URL, { cache: "no-store" });
+      if (!resp.ok) throw new Error("resposta " + resp.status);
+      const texto = await resp.text();
+      let achou = 0;
+      texto.split(/\r?\n/).forEach(linha => {
+        const partes = linha.split(",");
+        if (partes.length < 2) return;
+        const nome = normalizar(partes[0].replace(/"/g, ""));
+        const n = parseInt(partes[1].replace(/\D/g, ""), 10);
+        const b = bolos.find(x => normalizar(x.nome) === nome);
+        if (b && !isNaN(n)) { b.estoque = n; achou++; }
+      });
+      if (achou > 0) renderizar();
+    } catch (e) {
+      // Se a planilha falhar, o site segue com os números do código. Nada quebra.
+      console.warn("Não foi possível ler a planilha:", e);
+    }
+  }
+
+  // ===== PIX =====
+  const pixBox = document.getElementById("pixBox");
+  function mostrarPix() {
+    const pag = document.querySelector('input[name="pag"]:checked').value;
+    pixBox.classList.toggle("oculto", pag !== "Pix");
+  }
+  document.querySelectorAll('input[name="pag"]').forEach(r => r.addEventListener("change", mostrarPix));
+  mostrarPix();
+
+  document.getElementById("pixCopiar").addEventListener("click", async () => {
+    const btn = document.getElementById("pixCopiar");
+    let copiou = false;
+    try {
+      await navigator.clipboard.writeText(PIX_CHAVE);
+      copiou = true;
+    } catch (e) {
+      const t = document.createElement("textarea");
+      t.value = PIX_CHAVE;
+      document.body.appendChild(t);
+      t.select();
+      try { copiou = document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(t);
+    }
+    if (copiou) {
+      btn.textContent = "Chave copiada ✓";
+      btn.classList.add("ok");
+      setTimeout(() => { btn.textContent = "Copiar chave Pix"; btn.classList.remove("ok"); }, 2500);
+    } else {
+      avisar("Não consegui copiar. Anote: " + PIX_CHAVE);
+    }
+  });
+
+  // ===== ENVIAR PEDIDO =====
+  document.getElementById("enviar").addEventListener("click", () => {
+    const nome  = document.getElementById("nome").value.trim();
+    const bloco = document.getElementById("bloco").value.trim();
+    const apto  = document.getElementById("apto").value.trim();
+    const pag   = document.querySelector('input[name="pag"]:checked').value;
+
+    if (!bloco) { avisar("Informe o bloco"); document.getElementById("bloco").focus(); return; }
+    if (!apto)  { avisar("Informe o apartamento"); document.getElementById("apto").focus(); return; }
+    if (!nome)  { avisar("Informe seu nome"); document.getElementById("nome").focus(); return; }
+
+    const total = atualizar();
+    let msg = `*PEDIDO LV CAKES*\n\n`;
+    bolos.forEach(b => {
+      if (qtd[b.id] > 0) msg += `${qtd[b.id]}x ${b.nome} — ${real(qtd[b.id] * b.preco)}\n`;
+    });
+    msg += `\n*Total: ${real(total)}*\n\n`;
+    msg += `Nome: ${nome}\n`;
+    msg += `Bloco ${bloco}, Apto ${apto}\n`;
+    msg += `Pagamento: ${pag}`;
+
+    const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+    const janela = window.open(link, "_blank");
+    if (!janela) window.location.href = link;
+  });
+
+  renderizar();
+  carregarPlanilha();
+</script>
+</body>
+</html>
